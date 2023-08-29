@@ -13,6 +13,20 @@ def update_lyrics(file_path, dalyrics):
     audiofile.tag.lyrics.set(dalyrics)
     audiofile.tag.save(version=(2, 4, 0))  # Save in ID3 v2.3 format
 
+
+def replace_special_characters(input_string):
+    # Special replacements
+    normalized_string = input_string.replace("ï", "")
+
+    # Transliterate the input string into ASCII characters
+    normalized_string = unidecode(normalized_string)
+
+    # Remove characters that are outside the range of letters and numbers
+    normalized_string = re.sub(r'[^a-zA-Z0-9]+', '', normalized_string).lower()
+    
+    return normalized_string
+
+
 def get_all_songs(artist):
 
     agent = 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) \
@@ -66,7 +80,7 @@ def lyrics(artist, song):
     base = "https://www.azlyrics.com/"
 
     artist = artist.lower().replace(" ", "")
-    song = song.lower().replace(" ", "").replace(".", "").replace(",", "")
+    song = replace_special_characters(song)
     url = base + "lyrics/" + artist + "/" + song + ".html"
 
     req = requests.get(url, headers=headers)
