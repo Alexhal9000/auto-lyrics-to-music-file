@@ -6,6 +6,9 @@ import json
 import requests
 from bs4 import BeautifulSoup
 from fuzzywuzzy import fuzz
+import random
+from unidecode import unidecode
+import re
 
 # Function to update lyrics metadata of a music file
 def update_lyrics(file_path, dalyrics):
@@ -165,7 +168,7 @@ def update_lyrics_for_music_files(root_folder):
                 else:
                     print("Artist and song title metadata not available. Skipping.")
 
-                time.sleep(1)  # Add a 1-second delay
+                time.sleep(random.uniform(1, 5))  # Add a 1-second delay
 
 # Main function
 if __name__ == "__main__":
